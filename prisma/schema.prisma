@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  name      String
+  surname   String
+  email     String @unique
+  passwords String
+  cpf       String @unique
+
+  profiles Profile[]
+
+  games UsersOnGames[]
+}
+
+model Profile {
+  id    Int     @id @default(autoincrement())
+  title String  @unique
+  image String?
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId Int
+}
+
+model Game {
+  id          Int      @id @default(autoincrement())
+  title       String   @unique
+  capa        String
+  description String
+  year        DateTime
+  note        String
+  trailer     String
+  gameplay    String
+
+  users UsersOnGames[]
+  genres Genre[]
+}
+
+model Genre {
+  id Int @id @default(autoincrement())
+  name String 
+
+  game   Game @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  gameId Int
+}
+
+model UsersOnGames {
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId Int
+
+  game   Game @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  gameId Int
+
+  @@id([userId, gameId])
+}
