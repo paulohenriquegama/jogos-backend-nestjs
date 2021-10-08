@@ -37,7 +37,7 @@ model Game {
   title       String   @unique
   capa        String
   description String
-  year        DateTime
+  year        String
   note        String
   trailer     String
   gameplay    String
