@@ -50,10 +50,12 @@ export class GameService {
       data,
       include: this._include,
     });
-    }
+    
   }
 
   remove(id: number) {
-    return `This action removes a #${id} game`;
+    return this.prisma.game.delete({
+      where: { id },
+    });
   }
 }
