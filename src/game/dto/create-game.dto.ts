@@ -1,6 +1,8 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayNotEmpty,
   IsArray,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -21,7 +23,7 @@ export class CreateGameDto extends Game {
   description: string;
 
   @IsString()
-  year: string | Date;
+  year: string;
 
   @IsString()
   note: string;
@@ -33,9 +35,8 @@ export class CreateGameDto extends Game {
   gameplay: string;
   // users?: Prisma.UsersOnGamesUncheckedCreateNestedManyWithoutGameInput;
 
-  @ValidateNested({ each: true })
-  @Type(() => CreateGenreDto)
+  @IsInt({ each: true })
   @IsArray()
-  @IsOptional()
-  genres?: CreateGenreDto[];
+  @ArrayNotEmpty()
+  genresIds: number[];
 }

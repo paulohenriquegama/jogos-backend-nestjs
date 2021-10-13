@@ -9,19 +9,17 @@ export class GameService {
   constructor(private readonly prisma: PrismaService) {}
 
   private readonly _include = {
-    genres: {
-      select: {
-        id: false,
-        name: true,
-      },
-    },
+    genres: true,
   };
 
   create(dto: CreateGameDto) {
+    const genresIds = dto.genresIds;
+    delete dto.genresIds;
+
     const data: Prisma.GameCreateInput = {
       ...dto,
       genres: {
-        create: dto.genres,
+        connect: genresIds.map((genreId) => ({ id: genreId })),
       },
     };
     return this.prisma.game.create({
@@ -35,14 +33,20 @@ export class GameService {
   }
 
   findOne(id: number) {
-    return this.prisma.game.findUnique({ where: { id } });
+    return this.prisma.game.findUnique({
+      where: { id },
+      include: this._include,
+    });
   }
 
   update(id: number, dto: UpdateGameDto) {
-     const data: Prisma.GameUpdateInput = {
+    const genresIds = dto.genresIds;
+    delete dto.genresIds;
+
+    const data: Prisma.GameUpdateInput = {
       ...dto,
       genres: {
-        create: dto.genres,
+        connect: genresIds?.map((genresId) => ({ id: genresId })),
       },
     };
     return this.prisma.game.update({
@@ -50,7 +54,6 @@ export class GameService {
       data,
       include: this._include,
     });
-    
   }
 
   remove(id: number) {
