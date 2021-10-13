@@ -10,6 +10,7 @@ export class GameService {
 
   private readonly _include = {
     genres: true,
+    users: true,
   };
 
   create(dto: CreateGameDto) {

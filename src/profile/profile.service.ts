@@ -1,3 +1,4 @@
+import { Prisma } from '.prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
@@ -8,9 +9,7 @@ export class ProfileService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(data: CreateProfileDto) {
-    return this.prisma.profile.create({
-      data,
-    });
+    return this.prisma.profile.create({ data });
   }
 
   findAll() {

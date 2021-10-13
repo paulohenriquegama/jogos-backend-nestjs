@@ -1,3 +1,4 @@
+import { Prisma } from '.prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,7 +19,23 @@ export class UserService {
     games: true,
   };
 
-  create(data: CreateUserDto) {
+  create(dto: CreateUserDto) {
+    const gamesIds = dto.gamesIds;
+    delete dto.gamesIds;
+
+    const profilesIds = dto.profilesIds;
+    delete dto.profilesIds;
+
+    const data: Prisma.UserCreateInput = {
+      ...dto,
+      profiles: {
+        connect: profilesIds?.map((profileId) => ({ id: profileId })),
+      },
+      games: {
+        connect: gamesIds?.map((gameId) => ({ id: gameId })),
+      },
+    };
+
     return this.prisma.user.create({
       data,
       include: this._includes,
@@ -39,7 +56,23 @@ export class UserService {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
-  update(id: number, data: UpdateUserDto) {
+  update(id: number, dto: UpdateUserDto) {
+    const gamesIds = dto.gamesIds;
+    delete dto.gamesIds;
+
+    const profilesIds = dto.profilesIds;
+    delete dto.profilesIds;
+
+    const data: Prisma.UserUpdateInput = {
+      ...dto,
+      profiles: {
+        connect: profilesIds?.map((profileId) => ({ id: profileId })) || [],
+      },
+      games: {
+        connect: gamesIds?.map((gameId) => ({ id: gameId })) || [],
+      },
+    };
+
     return this.prisma.user.update({
       where: { id },
       data,

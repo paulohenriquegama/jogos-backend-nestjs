@@ -20,7 +20,7 @@ model User {
 
   profiles Profile[]
 
-  games UsersOnGames[]
+  games Game[]
 }
 
 model Profile {
@@ -36,13 +36,14 @@ model Game {
   id          Int    @id @default(autoincrement())
   title       String @unique
   capa        String
-  description String
+  description String?
   year        String
   note        String
   trailer     String
   gameplay    String
 
-  users  UsersOnGames[]
+  users  User[]
+
   genres Genre[]
 }
 
@@ -54,12 +55,12 @@ model Genre {
   
 }
 
-model UsersOnGames {
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId Int
+// model UsersOnGames {
+//   user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   userId Int
 
-  game   Game @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  gameId Int
+//   game   Game @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   gameId Int
 
-  @@id([userId, gameId])
-}
+//   @@id([userId, gameId])
+// }

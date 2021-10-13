@@ -1,4 +1,3 @@
-import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
@@ -8,7 +7,6 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { CreateGenreDto } from 'src/genre/dto/create-genre.dto';
 import { Game } from '../entities/game.entity';
 
 export class CreateGameDto extends Game {
@@ -33,7 +31,12 @@ export class CreateGameDto extends Game {
 
   @IsString()
   gameplay: string;
-  // users?: Prisma.UsersOnGamesUncheckedCreateNestedManyWithoutGameInput;
+
+  @IsInt({ each: true })
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsOptional()
+  usersIds?: number[];
 
   @IsInt({ each: true })
   @IsArray()
