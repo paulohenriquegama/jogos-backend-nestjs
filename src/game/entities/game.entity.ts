@@ -1,4 +1,4 @@
-// import { User } from 'src/user/entities/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { Genre } from 'src/genre/entities/genre.entity';
 
 export class Game {
@@ -10,6 +10,6 @@ export class Game {
   note: string;
   trailer: string;
   gameplay: string;
-  // users?: User[];
+  users?: User[] | null;
   genres?: Genre[];
 }

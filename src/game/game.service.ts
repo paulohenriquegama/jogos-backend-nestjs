@@ -8,7 +8,7 @@ import { UpdateGameDto } from './dto/update-game.dto';
 export class GameService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private readonly _include = {
+  private readonly _include: Prisma.GameInclude = {
     genres: true,
     users: true,
   };
@@ -17,10 +17,16 @@ export class GameService {
     const genresIds = dto.genresIds;
     delete dto.genresIds;
 
+    const usersIds = dto.usersIds;
+    delete dto.usersIds;
+
     const data: Prisma.GameCreateInput = {
       ...dto,
       genres: {
         connect: genresIds.map((genreId) => ({ id: genreId })),
+      },
+      users: {
+        connect: usersIds?.map((userId) => ({ id: userId })) || [],
       },
     };
     return this.prisma.game.create({
@@ -44,10 +50,16 @@ export class GameService {
     const genresIds = dto.genresIds;
     delete dto.genresIds;
 
+    const usersIds = dto.usersIds;
+    delete dto.genresIds;
+
     const data: Prisma.GameUpdateInput = {
       ...dto,
       genres: {
         connect: genresIds?.map((genresId) => ({ id: genresId })),
+      },
+      users: {
+        connect: usersIds?.map((userId) => ({ id: userId })),
       },
     };
     return this.prisma.game.update({

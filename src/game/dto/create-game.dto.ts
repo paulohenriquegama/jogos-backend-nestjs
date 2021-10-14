@@ -34,7 +34,6 @@ export class CreateGameDto extends Game {
 
   @IsInt({ each: true })
   @IsArray()
-  @ArrayNotEmpty()
   @IsOptional()
   usersIds?: number[];
 
