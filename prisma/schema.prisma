@@ -11,12 +11,13 @@ generator client {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  name      String
-  surname   String
-  email     String @unique
-  passwords String
-  cpf       String @unique
+  id       Int    @id @default(autoincrement())
+  name     String
+  surname  String
+  email    String @unique
+  password String @map("passwords")
+  cpf      String @unique
+  admin    Boolean @default(false)
 
   profiles Profile[]
 
@@ -33,16 +34,17 @@ model Profile {
 }
 
 model Game {
-  id          Int    @id @default(autoincrement())
-  title       String @unique
+  id          Int     @id @default(autoincrement())
+  title       String  @unique
   capa        String
   description String?
   year        String
   note        String
   trailer     String
   gameplay    String
+  favorite    Boolean @default(false)
 
-  users  User[]
+  users User[]
 
   genres Genre[]
 }
@@ -51,16 +53,6 @@ model Genre {
   id   Int    @id @default(autoincrement())
   name String @unique
 
-  games   Game[]
-  
+  games Game[]
+
 }
-
-// model UsersOnGames {
-//   user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   userId Int
-
-//   game   Game @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   gameId Int
-
-//   @@id([userId, gameId])
-// }
