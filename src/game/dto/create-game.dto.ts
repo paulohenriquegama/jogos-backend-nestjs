@@ -1,6 +1,7 @@
 import {
   ArrayNotEmpty,
   IsArray,
+  IsBoolean,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -31,6 +32,9 @@ export class CreateGameDto extends Game {
 
   @IsString()
   gameplay: string;
+
+  @IsBoolean()
+  favorite: boolean;
 
   @IsInt({ each: true })
   @IsArray()
