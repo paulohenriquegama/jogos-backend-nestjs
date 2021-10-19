@@ -5,6 +5,7 @@ import {
   IsString,
   IsInt,
   ValidateNested,
+  IsBoolean,
 } from 'class-validator';
 import { CreateProfileDto } from 'src/profile/dto/create-profile.dto';
 import { User } from '../entities/user.entity';
@@ -20,10 +21,13 @@ export class CreateUserDto extends User {
   email: string;
 
   @IsString()
-  passwords: string;
+  password: string;
 
   @IsString()
   cpf: string;
+
+  @IsBoolean()
+  admin: boolean;
 
   @IsArray()
   @IsOptional()
