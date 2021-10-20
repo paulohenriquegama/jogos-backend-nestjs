@@ -50,6 +50,10 @@ export class GameService {
     const genresIds = dto.genresIds;
     delete dto.genresIds;
 
+    const genresDisconnectIds = dto.genresDisconnectIds;
+
+    delete dto.genresDisconnectIds;
+
     const usersIds = dto.usersIds;
     delete dto.genresIds;
 
@@ -57,6 +61,7 @@ export class GameService {
       ...dto,
       genres: {
         connect: genresIds?.map((genresId) => ({ id: genresId })),
+        disconnect: genresDisconnectIds?.map((genreId) => ({ id: genreId })),
       },
       users: {
         connect: usersIds?.map((userId) => ({ id: userId })),
