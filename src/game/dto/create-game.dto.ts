@@ -34,7 +34,7 @@ export class CreateGameDto extends Game {
   gameplay: string;
 
   @IsBoolean()
-  favorite: boolean;
+  favorite: boolean | null;
 
   @IsInt({ each: true })
   @IsArray()
