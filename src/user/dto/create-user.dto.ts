@@ -26,7 +26,8 @@ export class CreateUserDto extends User {
   cpf: string;
 
   @IsBoolean()
-  admin: boolean;
+  @IsOptional()
+  admin?: boolean;
 
   @IsArray()
   @IsOptional()

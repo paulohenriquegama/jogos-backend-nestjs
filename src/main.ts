@@ -8,7 +8,7 @@ async function bootstrap() {
     cors: {
       origin: [
         'http://localhost:3001',
-        'https://bibliotecadejogos-reactjs.herokuapp.com/',
+        'https://bibliotecadejogos-reactjs.herokuapp.com',
       ],
     },
   });
