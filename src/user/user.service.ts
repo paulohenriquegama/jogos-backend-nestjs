@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -19,7 +20,7 @@ export class UserService {
     games: true,
   };
 
-  create(dto: CreateUserDto) {
+  async create(dto: CreateUserDto) {
     const gamesIds = dto.gamesIds;
     delete dto.gamesIds;
 
@@ -34,12 +35,16 @@ export class UserService {
       games: {
         connect: gamesIds?.map((gameId) => ({ id: gameId })),
       },
+      password: await bcrypt.hash(dto.password, 10),
     };
 
-    return this.prisma.user.create({
-      data,
+    const createdUser = await this.prisma.user.create({ data });
+
+    return {
+      ...createdUser,
+      password: undefined,
       include: this._includes,
-    });
+    };
   }
 
   findAll() {
@@ -52,8 +57,12 @@ export class UserService {
   //   });
   // }
 
-  findOne(id: number) {
+  findById(id: number) {
     return this.prisma.user.findUnique({ where: { id } });
+  }
+
+  findByEmail(email: string) {
+    return this.prisma.user.findUnique({ where: { email } });
   }
 
   update(id: number, dto: UpdateUserDto) {

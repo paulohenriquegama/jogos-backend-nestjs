@@ -7,7 +7,7 @@ export class User {
   name: string;
   surname: string;
   email: string;
-  passwords: string;
+  password: string;
   cpf: string;
   profiles?: Profile[];
   games?: Game[];

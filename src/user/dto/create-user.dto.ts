@@ -1,13 +1,11 @@
-import { Type } from 'class-transformer';
 import {
   IsArray,
   IsOptional,
   IsString,
   IsInt,
-  ValidateNested,
   IsBoolean,
+  IsEmail,
 } from 'class-validator';
-import { CreateProfileDto } from 'src/profile/dto/create-profile.dto';
 import { User } from '../entities/user.entity';
 
 export class CreateUserDto extends User {
@@ -18,6 +16,7 @@ export class CreateUserDto extends User {
   surname: string;
 
   @IsString()
+  @IsEmail()
   email: string;
 
   @IsString()
