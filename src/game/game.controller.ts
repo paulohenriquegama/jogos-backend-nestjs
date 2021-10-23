@@ -34,7 +34,6 @@ export class GameController {
   @Get('usercurrent')
   CurrentUser(@CurrentUser() currentUser: User) {
     return currentUser;
-    // return this.productService.findAll();
   }
 
   @Get(':id')
