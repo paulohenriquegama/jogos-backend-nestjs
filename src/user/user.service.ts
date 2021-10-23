@@ -51,12 +51,6 @@ export class UserService {
     return this.prisma.user.findMany({ include: this._includes });
   }
 
-  // findGames() {
-  //   return this.prisma.user.findMany({
-  //     where: { profiles: { some: {} } },
-  //   });
-  // }
-
   findById(id: number) {
     return this.prisma.user.findUnique({ where: { id } });
   }
