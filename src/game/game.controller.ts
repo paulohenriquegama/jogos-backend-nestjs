@@ -14,6 +14,7 @@ import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { Public } from 'src/auth/public.decorator';
+import { User } from 'src/user/entities/user.entity';
 
 @Controller('game')
 export class GameController {
@@ -28,6 +29,12 @@ export class GameController {
   @Get()
   findAll() {
     return this.gameService.findAll();
+  }
+
+  @Get('usercurrent')
+  CurrentUser(@CurrentUser() currentUser: User) {
+    return currentUser;
+    // return this.productService.findAll();
   }
 
   @Get(':id')
